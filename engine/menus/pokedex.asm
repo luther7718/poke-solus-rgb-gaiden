@@ -81,7 +81,7 @@ HandlePokedexSideMenu:
 	ld hl, wTopMenuItemY
 	ld a, 10
 	ld [hli], a ; top menu item Y
-	ld a, 15
+	ld a, 14
 	ld [hli], a ; top menu item X
 	xor a
 	ld [hli], a ; current menu item ID
@@ -158,19 +158,12 @@ HandlePokedexListMenu:
 	xor a
 	ldh [hAutoBGTransferEnabled], a
 ; draw the horizontal line separating the seen and owned amounts from the menu
-	hlcoord 15, 8
-	ld a, "─"
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	hlcoord 14, 0
+	hlcoord 12, 0
+	call DrawPokedexVerticalLine
+	hlcoord 12, 8
+	call DrawPokedexVerticalLine
+	hlcoord 12, 17
 	ld [hl], $71 ; vertical line tile
-	hlcoord 14, 1
-	call DrawPokedexVerticalLine
-	hlcoord 14, 9
-	call DrawPokedexVerticalLine
 	ld hl, wPokedexSeen
 	ld b, wPokedexSeenEnd - wPokedexSeen
 	call CountSetBits
@@ -185,16 +178,20 @@ HandlePokedexListMenu:
 	hlcoord 16, 6
 	lb bc, 1, 3
 	call PrintNumber ; print number of owned pokemon
-	hlcoord 16, 2
+	hlcoord 14, 2
 	ld de, PokedexSeenText
 	call PlaceString
-	hlcoord 16, 5
+	hlcoord 14, 5
 	ld de, PokedexOwnText
 	call PlaceString
 	hlcoord 1, 1
 	ld de, PokedexContentsText
 	call PlaceString
-	hlcoord 16, 10
+	; draw full border around Data/Cry/Area/Quit like in JP version
+	hlcoord 13, 8
+	lb bc, 8, 5
+	call TextBoxBorder
+	hlcoord 15, 10
 	ld de, PokedexMenuItemsText
 	call PlaceString
 ; find the highest pokedex number among the pokemon the player has seen
@@ -217,8 +214,8 @@ HandlePokedexListMenu:
 .loop
 	xor a
 	ldh [hAutoBGTransferEnabled], a
-	hlcoord 4, 2
-	lb bc, 14, 10
+	hlcoord 1, 3
+	lb bc, 14, 11
 	call ClearScreenArea
 	hlcoord 1, 3
 	ld a, [wListScrollOffset]
@@ -231,7 +228,7 @@ HandlePokedexListMenu:
 	dec a
 	ld [wMaxMenuItem], a
 ; loop to print pokemon pokedex numbers and names
-; if the player has owned the pokemon, it puts a pokeball beside the name
+; if the player has owned the pokemon, it puts a pokeball beside the number
 .printPokemonLoop
 	ld a, [wd11e]
 	inc a
@@ -239,14 +236,9 @@ HandlePokedexListMenu:
 	push af
 	push de
 	push hl
-	ld de, -SCREEN_WIDTH
-	add hl, de
 	ld de, wd11e
 	lb bc, LEADING_ZEROES | 1, 3
 	call PrintNumber ; print the pokedex number
-	ld de, SCREEN_WIDTH
-	add hl, de
-	dec hl
 	push hl
 	ld hl, wPokedexOwned
 	call IsPokemonBitSet
@@ -256,6 +248,8 @@ HandlePokedexListMenu:
 	ld a, $72 ; pokeball tile
 .writeTile
 	ld [hl], a ; put a pokeball next to pokemon that the player has owned
+	ld de, SCREEN_WIDTH - 2
+	add hl, de
 	push hl
 	ld hl, wPokedexSeen
 	call IsPokemonBitSet
@@ -269,7 +263,6 @@ HandlePokedexListMenu:
 	call GetMonName
 .skipGettingName
 	pop hl
-	inc hl
 	call PlaceString
 	pop hl
 	ld bc, 2 * SCREEN_WIDTH
