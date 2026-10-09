@@ -638,4 +638,11 @@ INCLUDE "data/pokemon/palettes.asm"
 
 INCLUDE "data/sgb/sgb_palettes.asm"
 
-INCLUDE "data/sgb/sgb_border.asm"
+; INCLUDE "data/sgb/sgb_border.asm"
+IF DEF(_SGB_BLUE)
+	INCLUDE "data/sgb/blue_sgb_border.asm"
+ELIF DEF(_SGB_RG)
+	INCLUDE "data/sgb/rg_sgb_border.asm"
+ELSE
+	INCLUDE "data/sgb/sgb_border.asm"
+ENDC

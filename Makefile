@@ -75,10 +75,11 @@ tidy:
 	      $(patches:%.patch=vc/%.constants.sym) \
 	      $(pokesolusred_obj) \
 	      $(pokesolusblue_obj) \
-		  $(pokesolusgreen_obj) \
+	      $(pokesolusgreen_obj) \
 	      $(pokesolusred_vc_obj) \
 	      $(pokesolusblue_vc_obj) \
 	      $(pokesolusblue_debug_obj) \
+	      $(SGB_STAMP) \
 	      rgbdscheck.o
 	$(MAKE) clean -C tools/
 
@@ -94,6 +95,26 @@ RGBASMFLAGS = -Q8 -P includes.asm -Weverything -Wnumeric-string=2 -Wtruncation=1
 ifeq ($(DEBUG),1)
 RGBASMFLAGS += -E
 endif
+
+### SGB Border Selection (can be expanded for other options later)
+# SGB_BORDERS=default (or no switch) compiles with R/G style borders for Red and Green Versions, Blue for Blue Version
+# SGB_BORDERS=blue  Compile RGB with custom borders based on vanilla Blue Version's
+# SGB_BORDERS=rg    Compile RGB with custom borders based on vanilla Red and Green Versions'
+
+SGB_BORDERS ?= default
+ifeq ($(SGB_BORDERS),default) # do nothing
+else ifeq ($(SGB_BORDERS),blue)
+RGBASMFLAGS += -D _SGB_BLUE
+else ifeq ($(SGB_BORDERS),rg)
+RGBASMFLAGS += -D _SGB_RG
+else
+$(error valid values for SGB_BORDERS are 'default', 'blue', or 'rg')
+endif
+## Create/edit stamp file so you don't have to make clean every time you switch border styles
+SGB_STAMP := .sgb_borders.stamp
+$(shell [ "$$(cat $(SGB_STAMP) 2>/dev/null)" = "$(SGB_BORDERS)" ] || echo "$(SGB_BORDERS)" > $(SGB_STAMP))
+$(pokesolusred_obj) $(pokesolusblue_obj) $(pokesolusgreen_obj) \
+$(pokesolusblue_debug_obj) $(pokesolusred_vc_obj) $(pokesolusblue_vc_obj): $(SGB_STAMP)
 
 $(pokesolusred_obj):        RGBASMFLAGS += -D _RED
 $(pokesolusblue_obj):       RGBASMFLAGS += -D _BLUE

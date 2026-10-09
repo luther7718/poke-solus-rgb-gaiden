@@ -1,12 +1,12 @@
 BorderPalettes:
 IF DEF(_RED)
-	INCBIN "gfx/sgb/red_border.tilemap"
+	INCBIN "gfx/sgb/blue/red_border.tilemap"
 ENDC
 IF DEF(_BLUE)
-	INCBIN "gfx/sgb/blue_border.tilemap"
+	INCBIN "gfx/sgb/blue/blue_border.tilemap"
 ENDC
 IF DEF(_GREEN)
-	INCBIN "gfx/sgb/green_border.tilemap"
+	INCBIN "gfx/sgb/blue/green_border.tilemap"
 ENDC
 
 	ds $100
@@ -76,11 +76,11 @@ ENDC
 
 SGBBorderGraphics:
 IF DEF(_RED)
-	INCBIN "gfx/sgb/red_border.2bpp"
+	INCBIN "gfx/sgb/blue/red_border.2bpp"
 ENDC
 IF DEF(_BLUE)
-	INCBIN "gfx/sgb/blue_border.2bpp"
+	INCBIN "gfx/sgb/blue/blue_border.2bpp"
 ENDC
 IF DEF(_GREEN)
-	INCBIN "gfx/sgb/green_border.2bpp"
+	INCBIN "gfx/sgb/blue/green_border.2bpp"
 ENDC
