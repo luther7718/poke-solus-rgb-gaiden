@@ -18,10 +18,10 @@ IF DEF(_RED)
 	RGB 24,14,12
 ENDC
 IF DEF(_BLUE)
-	RGB 30,29,29 ; PAL_SGB1 (BG + Squirtle)
-	RGB 10,17,26
-	RGB 5,9,20
-	RGB 16,20,27
+	RGB 30,29,29 ; PAL_SGB1
+	RGB 20,24,27
+	RGB 16,17,24
+	RGB 10,12,21
 ENDC
 IF DEF(_GREEN)
 	RGB 30,29,29 ; PAL_SGB1
@@ -38,11 +38,11 @@ IF DEF(_RED) ; Kangaskhan & Pidgey
 	RGB 27,20,6 ; rust orange
 	RGB 15,15,15
 ENDC
-IF DEF(_BLUE)
-	RGB 30,29,29 ; PAL_SGB2 (Charmander)
-	RGB 27,11,6
-	RGB 5,9,20
-	RGB 28,25,15
+IF DEF(_BLUE) ; Pidgey & Shellder
+	RGB 30,29,29 ; PAL_SGB2
+	RGB 24,19,7 ; brown
+	RGB 17,24,11 ; green
+	RGB 15,15,15
 ENDC
 IF DEF(_GREEN) ; Rhydon & Kangaskhan
 	RGB 30,29,29 ; PAL_SGB2
@@ -59,11 +59,11 @@ IF DEF(_RED) ; Rhydon & Clefairy
 	RGB 18,21,29 ; blue
 	RGB 15,15,15
 ENDC
-IF DEF(_BLUE)
-	RGB 30,29,29 ; PAL_SGB3 (Bulbasaur)
-	RGB 12,15,11
-	RGB 5,9,20
-	RGB 14,22,17
+IF DEF(_BLUE) ; Pikachu & Clefairy
+	RGB 30,29,29 ; PAL_SGB3
+	RGB 29,28,10 ; yellow
+	RGB 27,17,19 ; red
+	RGB 15,15,15
 ENDC
 IF DEF(_GREEN) ; Shellder & Pikachu
 	RGB 30,29,29 ; PAL_SGB3
